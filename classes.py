@@ -44,8 +44,3 @@ def blit_text_center(win, font, text):
     render = font.render(text, 1, (0, 0, 0))
     win.blit(render, (win.get_width()/2 - render.get_width() /
                       2, win.get_height()/2 - render.get_height()/2))
-
-
-def blit_text(win, font, text, pos):
-    render = font.render(text, True, (0, 0, 0))
-    win.blit(render, pos)

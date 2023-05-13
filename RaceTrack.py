@@ -56,6 +56,7 @@ class GameInfo:
 
     def reset(self):
         self.started = False
+        self.finish = False
 
 
 class CarActions:
@@ -126,17 +127,6 @@ def objects(win, images, player_car):
     pygame.display.update()
 
 
-def leaderboard(leaderboard_dict):
-    x = 400
-    y = 300
-    GUI.fill((107, 200, 250))
-    classes.blit_text(GUI, main_font, 'LEADERBOARD', (550, 100))
-    for name in leaderboard_dict:
-        classes.blit_text(GUI, main_font, name, (x, y))
-        classes.blit_text(GUI, main_font, str(leaderboard_dict[name]), ((x + 500), y))
-        y += 80
-
-
 def handle_collision(car, game_info):
     if car.collide(track_border_mask) is not None:
         car.bounce()
@@ -156,15 +146,6 @@ game_start = False
 images = [(track_img, (0, 0)), (finish_line, (748, 480))]
 car = CarActions(4, 2)
 game_info = GameInfo()
-
-records = {
-    'Fred': 40,
-    'Greg': 38,
-    'Tommy': 35,
-    'Gilbert': 32,
-    'Lana': 33,
-    'Patricia': 29
-}
 
 while running:
     if game_start:
@@ -217,20 +198,7 @@ while running:
     handle_collision(car, game_info)
 
     if game_info.finished():
-        records['You'] = game_info.get_level_time()
-        keys = list(records.keys())
-        values = list(records.values())
-        sorted_value_index = np.argsort(values)
-        sorted_dict = {keys[i]: values[i] for i in sorted_value_index}
-        classes.blit_text_center(GUI, main_font, f'Your Time: {game_info.get_level_time()}')
         game_info.reset()
-        # x = 400
-        # y = 300
-        # GUI.fill((107, 200, 250))
-        # classes.blit_text(GUI, main_font, 'LEADERBOARD', (550, 100))
-        # for name in sorted_dict:
-        #     classes.blit_text(GUI, main_font, name, (x, y))
-        #     classes.blit_text(GUI, main_font, str(time), ((x + 500), y))
-        #     y += 80
+        car.reset()
 
 pygame.quit()
